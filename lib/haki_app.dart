@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:haki/core/theme/app_theme.dart';
 
+import 'view/sign_in/sign_in.dart';
+
 class HakiApp extends StatelessWidget {
   const HakiApp({super.key});
 
@@ -8,7 +10,7 @@ class HakiApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Haki',
-      // home: HakiHome(),
+     home: SignIn(),
       debugShowCheckedModeBanner: false,
       theme: AppTheme.light,
       darkTheme: AppTheme.dark,

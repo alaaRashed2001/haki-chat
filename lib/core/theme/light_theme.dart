@@ -25,9 +25,11 @@ class LightTheme {
 
       textTheme: AppTextStyles.textTheme(colors),
 
+
       elevatedButtonTheme: AppButtonTheme.elevated(colors),
 
       inputDecorationTheme: AppInputTheme.build(colors),
+      dividerTheme: DividerThemeData(color: colors.dividerColor)
     );
   }
 }
