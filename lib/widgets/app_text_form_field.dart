@@ -31,20 +31,22 @@ class _AppTextFormFieldState extends State<AppTextFormField> {
   Widget build(BuildContext context) {
     return TextFormField(
       controller: widget.controller,
-      obscureText: widget.obscure ? showPassword : false,
+      obscureText: widget.obscure && !showPassword,
       decoration: InputDecoration(
         hintText: widget.hintText,
         prefixIcon: Padding(
-          padding: EdgeInsetsDirectional.only(start: 16),
+          padding: const EdgeInsetsDirectional.only(start: 16),
           child: Icon(widget.prefixIcon),
         ),
         suffixIcon: widget.obscure
             ? IconButton(
-                onPressed: () => setState(() => showPassword = !showPassword),
-                icon: Icon(
-                  showPassword ? Icons.visibility : Icons.visibility_off,
-                ),
-              )
+          onPressed: () {
+            setState(() => showPassword = !showPassword);
+          },
+          icon: Icon(
+            showPassword ? Icons.visibility : Icons.visibility_off,
+          ),
+        )
             : null,
       ),
       keyboardType: widget.inputType,

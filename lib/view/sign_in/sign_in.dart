@@ -2,6 +2,7 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:haki/core/assets/app_assets.dart';
 import 'package:haki/core/colors/app_colors.dart';
+import 'package:haki/core/extensions/app_responsive.dart';
 import 'package:haki/core/extensions/text_style_extension.dart';
 import 'package:haki/core/extensions/theme_extension.dart';
 import 'package:haki/view/sign_in/widgets/sign_in_form.dart';
@@ -33,41 +34,55 @@ class _SignInState extends State<SignIn> {
     return Scaffold(
       body: SafeArea(
         child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 16),
+          padding: context.spaceHorizontal(16),
           child: Column(
             children: [
-              SizedBox(height: 8),
+              8.hSpace,
+
               Container(
-                padding: const EdgeInsets.all(10),
+                padding: context.spaceAll(10),
                 decoration: BoxDecoration(
                   color: AppColorPalette.primary,
-                  borderRadius: BorderRadius.circular(26),
+                  borderRadius: context.circularRadius(26),
                 ),
                 child: Image.asset(AppAssets.claps),
               ),
-              SizedBox(height: 30),
+
+              30.hSpace,
+
               Text(
                 "Sign In",
                 style: context.font34Bold!.copyWith(
                   color: AppColorPalette.primary,
                 ),
               ),
-              SizedBox(height: 30),
+
+              30.hSpace,
+
               Text(
                 "Let’s go To discover App",
                 style: context.font16Regular!.copyWith(
                   color: context.textSecondaryColor,
                 ),
               ),
-              SizedBox(height: 60),
+
+              60.hSpace,
+
               SignInForm(
                 formKey: _formKey,
                 emailController: emailController,
                 passwordController: passwordController,
               ),
-              SizedBox(height: 30),
-              CustomElevatedButton(text: "Sign In", onPressed: () {}),
-              SizedBox(height: 30),
+
+              30.hSpace,
+
+              CustomElevatedButton(
+                text: "Sign In",
+                onPressed: () {},
+              ),
+
+              30.hSpace,
+
               Row(
                 spacing: 16,
                 children: [
@@ -82,7 +97,8 @@ class _SignInState extends State<SignIn> {
                 ],
               ),
 
-              SizedBox(height: 30),
+              30.hSpace,
+
               Row(
                 children: [
                   Expanded(
@@ -92,7 +108,7 @@ class _SignInState extends State<SignIn> {
                       onTap: () {},
                     ),
                   ),
-                  SizedBox(width: 16),
+                  16.wSpace,
                   Expanded(
                     child: SocialButton(
                       title: "Facebook",
@@ -102,30 +118,33 @@ class _SignInState extends State<SignIn> {
                   ),
                 ],
               ),
-              Spacer(),
+
+              const Spacer(),
+
               RichText(
                 text: TextSpan(
-                  text: 'Don\'t have an account?',
+                  text: "Don't have an account?",
                   style: TextStyle(
                     color: context.textSecondaryColor,
-                    fontSize: 18,
+                    fontSize: 18.sp,
                   ),
-                  children: <TextSpan>[
+                  children: [
                     TextSpan(
                       text: ' Sign up',
-                      style: TextStyle(
+                      style: const TextStyle(
                         color: AppColorPalette.primary,
                         fontSize: 18,
                       ),
                       recognizer: TapGestureRecognizer()
                         ..onTap = () {
-                          // navigate to Sign up screen
+                          // Navigate to Sign up screen
                         },
                     ),
                   ],
                 ),
               ),
-              SizedBox(height: 30),
+
+              30.hSpace,
             ],
           ),
         ),

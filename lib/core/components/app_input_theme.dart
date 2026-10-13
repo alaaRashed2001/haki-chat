@@ -15,24 +15,24 @@ class AppInputTheme {
       filled: true,
       fillColor: colors.cardColor,
       isDense: true,
-      contentPadding: const EdgeInsets.all(16),
-
+      contentPadding: const EdgeInsets.symmetric(
+        horizontal: 16,
+        vertical: 16,
+      ),
       hintStyle: AppTextStyles.style(
         fontSize: 14,
         fontWeight: FontWeight.w400,
         lineHeight: 20,
         color: colors.textSecondaryColor,
       ),
-
       labelStyle: AppTextStyles.style(
         fontSize: 14,
         fontWeight: FontWeight.w400,
         lineHeight: 20,
         color: colors.textSecondaryColor,
       ),
-
+      prefixIconColor: colors.textSecondaryColor,
       suffixIconColor: colors.textSecondaryColor,
-
       border: border(colors.inputBorderColor),
       enabledBorder: border(colors.inputBorderColor),
       focusedBorder: border(colors.inputFocusedBorderColor),

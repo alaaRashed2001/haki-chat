@@ -44,7 +44,8 @@ class AppColorLight implements AppColors {
 
   @override
   Color get dividerColor => const Color(0xFFE7EBE2);
-
+  @override
+  Color get progressIndicatorColor => primaryColor;
   @override
   Color get successColor => AppColorPalette.success;
 

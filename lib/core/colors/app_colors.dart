@@ -21,6 +21,8 @@ abstract class AppColors {
 
   Color get dividerColor;
 
+  Color get progressIndicatorColor;
+
   Color get successColor;
   Color get warningColor;
   Color get errorColor;

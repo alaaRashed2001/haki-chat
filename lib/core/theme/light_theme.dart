@@ -21,6 +21,7 @@ class LightTheme {
         surface: colors.cardColor,
         onSurface: colors.textPrimaryColor,
         onSurfaceVariant: colors.textSecondaryColor,
+        tertiary: colors.progressIndicatorColor,
       ),
 
       textTheme: AppTextStyles.textTheme(colors),

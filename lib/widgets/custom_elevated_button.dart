@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:haki/core/components/app_progress_theme.dart';
 
 class CustomElevatedButton extends StatelessWidget {
   final String text;
@@ -15,15 +16,8 @@ class CustomElevatedButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ElevatedButton(
-      onPressed: onPressed,
-
-      child: isLoading
-          ? SizedBox(
-              width: 5,
-              height: 5,
-              child: CircularProgressIndicator(strokeWidth: 2),
-            )
-          : Text(text),
+      onPressed: isLoading ? null : onPressed,
+      child: isLoading ? const AppLoadingIndicator() : Text(text),
     );
   }
 }

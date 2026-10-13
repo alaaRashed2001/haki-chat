@@ -44,7 +44,8 @@ class AppColorDark implements AppColors {
 
   @override
   Color get dividerColor => const Color(0xFF293127);
-
+  @override
+  Color get progressIndicatorColor => primaryColor;
   @override
   Color get successColor => AppColorPalette.success;
 

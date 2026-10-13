@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:haki/core/extensions/app_responsive.dart';
 import 'package:haki/widgets/app_text_form_field.dart';
 
 class SignInForm extends StatelessWidget {
@@ -18,7 +19,7 @@ class SignInForm extends StatelessWidget {
     return Form(
       key: formKey,
       child: Column(
-        spacing: 16,
+        spacing: context.rHeight(16),
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
           AppTextFormField(
