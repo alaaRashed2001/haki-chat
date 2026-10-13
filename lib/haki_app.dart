@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:haki/core/get_it_service.dart';
+import 'package:haki/core/navigations/routes_manager.dart';
 import 'package:haki/core/theme/app_theme.dart';
 
-import 'view/sign_in/sign_in.dart';
+import 'core/navigations/get_it_navigation_extension.dart';
 
 class HakiApp extends StatelessWidget {
   const HakiApp({super.key});
@@ -10,7 +12,8 @@ class HakiApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Haki',
-     home: SignIn(),
+      navigatorKey: getIt.navigatorKey,
+      onGenerateRoute: RoutesManager.onGenerateRoute,
       debugShowCheckedModeBanner: false,
       theme: AppTheme.light,
       darkTheme: AppTheme.dark,
