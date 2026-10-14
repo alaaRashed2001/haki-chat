@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "842986567940",
+    "project_id": "haki-chat-2d4e1",
+    "storage_bucket": "haki-chat-2d4e1.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:842986567940:android:abc8c8b7fdccce2278f851",
+        "android_client_info": {
+          "package_name": "com.chat.haki"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDhZRFs9Fno3IROg8zbIT5oBW7IP7LUOg8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
