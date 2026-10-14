@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:haki/core/navigations/unknown_route_screen.dart';
-import 'package:haki/view/sign_in/sign_in.dart';
+import 'package:haki/view/auth/sign_in.dart';
+import 'package:haki/view/auth/sign_up.dart';
 import 'package:haki/view/splash_screen/custom_splash_screen.dart';
 
 class RoutesManager {
@@ -11,6 +12,8 @@ class RoutesManager {
       widget = const CustomSplashScreen();
     } else if (name == RouteName.signIn.title) {
       widget = const SignIn();
+    } else if (name == RouteName.signUp.title) {
+      widget = const SignUp();
     } else {
       widget = UnknownRouteScreen(routeName: name ?? '');
     }

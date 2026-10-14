@@ -2,14 +2,18 @@ import 'package:flutter/material.dart';
 import 'package:haki/core/extensions/app_responsive.dart';
 import 'package:haki/widgets/app_text_form_field.dart';
 
-class SignInForm extends StatelessWidget {
+class AuthForm extends StatelessWidget {
   final GlobalKey<FormState> formKey;
+  final bool isLogin;
+  final TextEditingController? nameController;
   final TextEditingController emailController;
   final TextEditingController passwordController;
 
-  const SignInForm({
+  const AuthForm({
     super.key,
     required this.formKey,
+    this.isLogin = false,
+    this.nameController,
     required this.emailController,
     required this.passwordController,
   });
@@ -22,6 +26,14 @@ class SignInForm extends StatelessWidget {
         spacing: context.rHeight(16),
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
+          if (!isLogin && nameController != null)
+            AppTextFormField(
+              controller: nameController!,
+              hintText: 'Your Full Name',
+              prefixIcon: Icons.person,
+              inputAction: TextInputAction.next,
+              inputType: TextInputType.name,
+            ),
           AppTextFormField(
             controller: emailController,
             hintText: 'test@example.com',
@@ -34,7 +46,7 @@ class SignInForm extends StatelessWidget {
             controller: passwordController,
             hintText: 'xxxxxxxx',
             prefixIcon: Icons.lock,
-            inputAction: TextInputAction.next,
+            inputAction: TextInputAction.done,
             inputType: TextInputType.visiblePassword,
             obscure: true,
           ),
