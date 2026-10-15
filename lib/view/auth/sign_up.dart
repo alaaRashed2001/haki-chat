@@ -1,8 +1,8 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:haki/controller/sign_up_controller.dart';
 import 'package:haki/core/assets/app_assets.dart';
 import 'package:haki/core/colors/app_colors.dart';
-import 'package:haki/core/controller/sign_up_controller.dart';
 import 'package:haki/core/enums/widget_state_enum.dart';
 import 'package:haki/core/extensions/app_responsive.dart';
 import 'package:haki/core/extensions/text_style_extension.dart';

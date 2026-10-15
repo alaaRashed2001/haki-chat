@@ -18,7 +18,7 @@ extension GetItExtensions on GetIt {
     emailAddress: emailAddress,
     password: password,
   );
-// Add Email And Name Service Manager
+  // Add Email And Name Service Manager
   Future<bool> addEmailAndName({
     required String emailAddress,
     required String name,
@@ -34,4 +34,7 @@ extension GetItExtensions on GetIt {
     emailAddress: emailAddress,
     password: password,
   );
+  // Sign In With Google Service Manager
+  Future<String?> signInWithGoogle() =>
+      FirebaseServiceManager.signInWithGoogle();
 }

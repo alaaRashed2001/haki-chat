@@ -2,6 +2,7 @@ import 'dart:async';
 import 'package:dartz/dartz.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:haki/core/enums/social_type.dart';
 import 'package:haki/core/enums/widget_state_enum.dart';
 import 'package:haki/core/extensions/get_it_extensions.dart';
 import 'package:haki/core/extensions/text_editing_controller_extensions.dart';
@@ -37,7 +38,6 @@ class SignInController {
     _initScreenStateStreams();
   }
 
-
   void _initScreenStateStreams() {
     _screenStateController = StreamController<WidgetStateEnum>();
     screenStateOutput = _screenStateController.stream.asBroadcastStream();
@@ -47,8 +47,6 @@ class SignInController {
   void _disposeStreams() {
     _disposeScreenStateStreams();
   }
-
-
 
   void _disposeScreenStateStreams() {
     _screenStateController.close();
@@ -79,7 +77,6 @@ class SignInController {
     passwordController.dispose();
   }
 
-
   void onPressedSignIn() async {
     if (formKey.currentState!.validate()) {
       _signIn();
@@ -90,9 +87,9 @@ class SignInController {
     _changeScreenState(WidgetStateEnum.loading);
     Either<String, UserCredential> result = await getIt
         .signInUserWithEmailAndPassword(
-      emailAddress: emailController.getText,
-      password: passwordController.getText,
-    );
+          emailAddress: emailController.getText,
+          password: passwordController.getText,
+        );
     result.fold(_onFailureSignIn, _onSuccessSignIn);
   }
 
@@ -119,10 +116,33 @@ class SignInController {
     _screenStateInput.add(state);
   }
 
+  void onPressedSignWithSocial(SocialType socialType) {
+    switch (socialType) {
+      case SocialType.facebook:
+        print('facebook');
+      case SocialType.google:
+        _signInWithGoogle();
+    }
+  }
 
+  void _signInWithGoogle() async {
+    _changeScreenState(WidgetStateEnum.loading);
 
+    var result = await getIt.signInWithGoogle();
 
-
-
+    if (result == null) {
+      _changeScreenState(WidgetStateEnum.failed);
+      if (context.mounted) {
+        showAppSnackBar(context: context, message: 'Something went wrong');
+      }
+    } else {
+      await getIt.addEmailAndName(
+        emailAddress: FirebaseAuth.instance.currentUser!.email!,
+        name: FirebaseAuth.instance.currentUser!.displayName!,
+      );
+      _changeScreenState(WidgetStateEnum.success);
+      _goToMessagePage();
+      print('success');
+    }
+  }
 }
-

@@ -1,10 +1,13 @@
 import 'package:dartz/dartz.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 
 class FirebaseServiceManager {
   const FirebaseServiceManager._();
 
+
+  // Create User With Email And Password Service Manager
   static Future<Either<String, UserCredential>> createUserWithEmailAndPassword({
     required String emailAddress,
     required String password,
@@ -29,6 +32,7 @@ class FirebaseServiceManager {
     }
   }
 
+  // Add Email And Name Service Manager
   static Future<bool> addEmailAndName({
     required String emailAddress,
     required String name,
@@ -47,6 +51,8 @@ class FirebaseServiceManager {
       return false;
     }
   }
+
+  // Sign In User With Email And Password Service Manager
   static Future<Either<String, UserCredential>> signInUserWithEmailAndPassword({
     required String emailAddress,
     required String password,
@@ -68,6 +74,38 @@ class FirebaseServiceManager {
       }
     } catch (e) {
       return left(e.toString());
+    }
+  }
+
+  // Sign In With Google Service Manager
+  static Future<String?> signInWithGoogle() async {
+    final GoogleSignIn googleSignIn = GoogleSignIn.instance;
+
+    try {
+      await googleSignIn.initialize();
+      final List<String> scope = ['email'];
+
+      final GoogleSignInAccount auth = await googleSignIn.authenticate(
+        scopeHint: scope,
+      );
+      final GoogleSignInAuthorizationClient authClient =
+          auth.authorizationClient;
+      var authorization = await authClient.authorizationForScopes(scope);
+
+      authorization ??= await authClient.authorizeScopes(scope);
+      var googleAuth = auth.authentication;
+
+      // Create a new credential
+      final credential = GoogleAuthProvider.credential(
+        idToken: googleAuth.idToken,
+      );
+
+      // Once signed in, return the UserCredential
+      await FirebaseAuth.instance.signInWithCredential(credential);
+      return authorization.accessToken;
+    } catch (e) {
+      print(e);
+      return null;
     }
   }
 }

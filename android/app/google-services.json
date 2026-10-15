@@ -12,7 +12,20 @@
           "package_name": "com.chat.haki"
         }
       },
-      "oauth_client": [],
+      "oauth_client": [
+        {
+          "client_id": "842986567940-vtua4ct76o9v2kn48inh7cadro6u6n28.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.chat.haki",
+            "certificate_hash": "419a824700b60f14443c8162dc2e4a7c3e869f0a"
+          }
+        },
+        {
+          "client_id": "842986567940-tsqelempnm18ssf2cl66ioeus1c6fod4.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
       "api_key": [
         {
           "current_key": "AIzaSyDhZRFs9Fno3IROg8zbIT5oBW7IP7LUOg8"
@@ -20,7 +33,19 @@
       ],
       "services": {
         "appinvite_service": {
-          "other_platform_oauth_client": []
+          "other_platform_oauth_client": [
+            {
+              "client_id": "842986567940-tsqelempnm18ssf2cl66ioeus1c6fod4.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "842986567940-1vpgju0jhho24maqdajf1kuc9ka7fqof.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.chat.haki"
+              }
+            }
+          ]
         }
       }
     }
