@@ -1,11 +1,17 @@
+import 'dart:convert';
+import 'dart:io';
+import 'dart:math';
+
 import 'package:dartz/dartz.dart';
+import 'package:crypto/crypto.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
+import 'package:haki/core/constants/consts_manager.dart';
 
 class FirebaseServiceManager {
   const FirebaseServiceManager._();
-
 
   // Create User With Email And Password Service Manager
   static Future<Either<String, UserCredential>> createUserWithEmailAndPassword({
@@ -108,4 +114,99 @@ class FirebaseServiceManager {
       return null;
     }
   }
+
+  static String _generateRawNonce() {
+    const charset =
+        '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz';
+    final random = Random.secure();
+    return List.generate(
+      16,
+      (index) => charset[random.nextInt(charset.length)],
+    ).join();
+  }
+
+  static String _sha256Convert(String input) {
+    final bytes = utf8.encode(input);
+    final digest = sha256.convert(bytes);
+    return digest.toString();
+  }
+
+  static Future<({String? token, String message})> signInWithFacebook() async {
+    try {
+      final String rawNonce = _generateRawNonce();
+      final String hashedNonce = _sha256Convert(rawNonce);
+
+      // 2. تمرير الـ hashedNonce لفيسبوك (مهم جداً للـ Limited Login)
+      final LoginResult loginResult = await FacebookAuth.instance.login(
+        nonce: Platform.isAndroid ? null : hashedNonce,
+      );
+      print("loginResult ${loginResult.status}");
+      switch (loginResult.status) {
+        case LoginStatus.cancelled:
+          return (token: null, message: ConstsManager.userCancelled);
+        case LoginStatus.failed:
+          return (token: null, message: ConstsManager.signInFacebookFailed);
+        case LoginStatus.operationInProgress:
+          return (token: null, message: ConstsManager.signInFacebookInProgress);
+        case LoginStatus.success:
+          // Create userCredential credential from the access token
+          if (Platform.isAndroid) {
+            final OAuthCredential facebookAuthCredential =
+                FacebookAuthProvider.credential(
+                  loginResult.accessToken!.tokenString,
+                );
+
+            // Once signed in, return the UserCredential
+            UserCredential userCredential = await FirebaseAuth.instance
+                .signInWithCredential(facebookAuthCredential);
+            print("UserCredential is $userCredential");
+            return (
+              token: userCredential.credential?.accessToken,
+              message: ConstsManager.signInFacebookSuccess,
+            );
+          } else {
+            final String token = loginResult.accessToken!.tokenString;
+            print("Token: $token");
+
+            // 3. بناء الـ Credential باستخدام idToken والـ rawNonce
+            final OAuthCredential credential = FacebookAuthProvider.credential(
+              token, // هنا نمرر الـ ID Token (الذي يبدأ بـ eyJ)
+            );
+            print(credential.idToken);
+            print(credential.accessToken);
+            // في حالات الـ Limited Login المعقدة، نستخدم التمرير اليدوي للتأكد من الـ Nonce
+            UserCredential userCredential = await FirebaseAuth.instance
+                .signInWithCredential(
+                  OAuthCredential(
+                    providerId: 'facebook.com',
+                    signInMethod: 'oauth',
+                    idToken: token,
+                    rawNonce: rawNonce, // نمرر النص الأصلي غير المشفر هنا
+                  ),
+                );
+            String? firebaseIdToken = await userCredential.user?.getIdToken();
+
+            return (
+              token: firebaseIdToken,
+              message: ConstsManager.signInFacebookSuccess,
+            );
+          }
+      }
+    } on FirebaseAuthException catch (e) {
+      if (e.code == 'account-exists-with-different-credential') {
+        return (
+          token: null,
+          message: ConstsManager.accountExistsWithDifferentCredential,
+        );
+      } else if (e.code == 'invalid-credential') {
+        return (token: null, message: ConstsManager.invalidCredential);
+      }
+      return (token: null, message: ConstsManager.unexpectedError);
+    } catch (e) {
+      print("EX:  $e");
+
+      return (token: null, message: ConstsManager.unexpectedError);
+    }
+  }
 }
+

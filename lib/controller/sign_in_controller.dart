@@ -119,7 +119,7 @@ class SignInController {
   void onPressedSignWithSocial(SocialType socialType) {
     switch (socialType) {
       case SocialType.facebook:
-        print('facebook');
+        _signInWithFacebook();
       case SocialType.google:
         _signInWithGoogle();
     }
@@ -144,5 +144,28 @@ class SignInController {
       _goToMessagePage();
       print('success');
     }
+  }
+
+  void _signInWithFacebook() async {
+    _changeScreenState(WidgetStateEnum.loading);
+    ({String message, String? token}) result = await getIt.signInWithFacebook();
+
+    //check token to change state
+    if (result.token == null) {
+      _changeScreenState(WidgetStateEnum.failed);
+    } else {
+      _changeScreenState(WidgetStateEnum.success);
+      await getIt
+          .addEmailAndName(
+            emailAddress: FirebaseAuth.instance.currentUser?.email ?? "",
+            name: FirebaseAuth.instance.currentUser?.displayName ?? "",
+          )
+          .then((value) => _goToMessagePage());
+    }
+    //show message
+    if (context.mounted) {
+      showAppSnackBar(context: context, message: result.message);
+    }
+    //go to message page if token is not null
   }
 }

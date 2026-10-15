@@ -37,4 +37,7 @@ extension GetItExtensions on GetIt {
   // Sign In With Google Service Manager
   Future<String?> signInWithGoogle() =>
       FirebaseServiceManager.signInWithGoogle();
+  // Sign In With Facebook Service Manager
+  Future<({String? token, String message})> signInWithFacebook() =>
+      FirebaseServiceManager.signInWithFacebook();
 }

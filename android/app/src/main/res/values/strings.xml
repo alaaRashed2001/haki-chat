@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="facebook_app_id">1122148357413602</string>
+    <string name="fb_login_protocol_scheme">fb1122148357413602</string>
+    <string name="facebook_client_token">f695f77726da636c8b34c22af471bfdf</string>
+    <string name="app_name">Haku Chat</string>
+
+</resources>

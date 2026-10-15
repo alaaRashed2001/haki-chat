@@ -122,7 +122,8 @@ class _SignInState extends State<SignIn> {
                           child: SocialButton(
                             title: "Facebook",
                             image: AppAssets.facebook,
-                            onTap: () {},
+                            onTap: () => signInController
+                                .onPressedSignWithSocial(SocialType.facebook),
                           ),
                         ),
                       ],
