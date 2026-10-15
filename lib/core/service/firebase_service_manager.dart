@@ -47,4 +47,27 @@ class FirebaseServiceManager {
       return false;
     }
   }
+  static Future<Either<String, UserCredential>> signInUserWithEmailAndPassword({
+    required String emailAddress,
+    required String password,
+  }) async {
+    try {
+      final credential = await FirebaseAuth.instance.signInWithEmailAndPassword(
+        email: emailAddress,
+        password: password,
+      );
+      return Right(credential);
+    } on FirebaseAuthException catch (e) {
+      print(e);
+      if (e.code == 'user-not-found') {
+        return const Left('No user found for that email.');
+      } else if (e.code == 'wrong-password') {
+        return const Left('Wrong password provided for that user.');
+      } else {
+        return const Left("Wrong email or password");
+      }
+    } catch (e) {
+      return left(e.toString());
+    }
+  }
 }

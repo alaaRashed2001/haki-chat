@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:haki/core/navigations/unknown_route_screen.dart';
 import 'package:haki/view/auth/sign_in.dart';
 import 'package:haki/view/auth/sign_up.dart';
+import 'package:haki/view/messages/messages_screen.dart';
 import 'package:haki/view/splash/custom_splash_screen.dart';
 
 class RoutesManager {
@@ -14,6 +15,8 @@ class RoutesManager {
       widget = const SignIn();
     } else if (name == RouteName.signUp.title) {
       widget = const SignUp();
+    } else if (name == RouteName.messagesPage.title) {
+      widget = const MessagesScreen();
     } else {
       widget = UnknownRouteScreen(routeName: name ?? '');
     }

@@ -2,6 +2,8 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:haki/core/assets/app_assets.dart';
 import 'package:haki/core/colors/app_colors.dart';
+import 'package:haki/core/controller/sign_in_controller.dart';
+import 'package:haki/core/enums/widget_state_enum.dart';
 import 'package:haki/core/extensions/app_responsive.dart';
 import 'package:haki/core/extensions/text_style_extension.dart';
 import 'package:haki/core/extensions/theme_extension.dart';
@@ -20,137 +22,150 @@ class SignIn extends StatefulWidget {
 }
 
 class _SignInState extends State<SignIn> {
-  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
-  final TextEditingController emailController = TextEditingController();
-  final TextEditingController passwordController = TextEditingController();
+  late SignInController signInController;
+
+  @override
+  void initState() {
+    super.initState();
+
+    signInController = SignInController(context);
+  }
 
   @override
   void dispose() {
-    emailController.dispose();
-    passwordController.dispose();
-
+    signInController.dispose();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: SafeArea(
-        child: SingleChildScrollView(
-          child: Padding(
-            padding: context.spaceHorizontal(16),
-            child: Column(
-              children: [
-                8.hSpace,
-                const AuthHeaderIcon(image: AppAssets.claps),
-
-                30.hSpace,
-
-                Text(
-                  "Sign In",
-                  style: context.font34Bold!.copyWith(
-                    color: AppColorPalette.primary,
-                  ),
-                ),
-
-                30.hSpace,
-
-                Text(
-                  "Let’s go To discover App",
-                  style: context.font16Regular!.copyWith(
-                    color: context.textSecondaryColor,
-                  ),
-                ),
-
-                60.hSpace,
-
-                AuthForm(
-                  formKey: _formKey,
-                  isLogin: true,
-                  emailController: emailController,
-                  passwordController: passwordController,
-                ),
-
-                30.hSpace,
-
-                CustomElevatedButton(text: "Sign In", onPressed: () {}),
-
-                30.hSpace,
-
-                Row(
-                  spacing: 16,
+    return StreamBuilder(
+      stream: signInController.screenStateOutput,
+      initialData: WidgetStateEnum.enable,
+      builder: (context, asyncSnapshot) {
+        return Scaffold(
+          body: SafeArea(
+            child: SingleChildScrollView(
+              child: Padding(
+                padding: context.spaceHorizontal(16),
+                child: Column(
                   children: [
-                    const Expanded(child: Divider()),
+                    8.hSpace,
+                    const AuthHeaderIcon(image: AppAssets.claps),
+
+                    30.hSpace,
+
                     Text(
-                      "Or",
-                      style: context.font16Regular!.copyWith(
+                      "Sign In",
+                      style: context.font34Bold!.copyWith(
                         color: AppColorPalette.primary,
                       ),
                     ),
-                    const Expanded(child: Divider()),
-                  ],
-                ),
 
-                30.hSpace,
+                    30.hSpace,
 
-                Row(
-                  children: [
-                    Expanded(
-                      child: SocialButton(
-                        title: "Google",
-                        image: AppAssets.google,
-                        onTap: () {},
+                    Text(
+                      "Let’s go To discover App",
+                      style: context.font16Regular!.copyWith(
+                        color: context.textSecondaryColor,
                       ),
                     ),
-                    16.wSpace,
-                    Expanded(
-                      child: SocialButton(
-                        title: "Facebook",
-                        image: AppAssets.facebook,
-                        onTap: () {},
-                      ),
+
+                    60.hSpace,
+
+                    AuthForm(
+                      formKey: signInController.formKey,
+                      isLogin: true,
+                      emailController: signInController.emailController,
+                      passwordController: signInController.passwordController,
+                    ),
+
+                    30.hSpace,
+
+                    CustomElevatedButton(
+                      text: "Sign In",
+                      isLoading: asyncSnapshot.data == WidgetStateEnum.loading,
+                      onPressed: () => signInController.onPressedSignIn(),
+                    ),
+
+                    30.hSpace,
+
+                    Row(
+                      spacing: 16,
+                      children: [
+                        const Expanded(child: Divider()),
+                        Text(
+                          "Or",
+                          style: context.font16Regular!.copyWith(
+                            color: AppColorPalette.primary,
+                          ),
+                        ),
+                        const Expanded(child: Divider()),
+                      ],
+                    ),
+
+                    30.hSpace,
+
+                    Row(
+                      children: [
+                        Expanded(
+                          child: SocialButton(
+                            title: "Google",
+                            image: AppAssets.google,
+                            onTap: () {},
+                          ),
+                        ),
+                        16.wSpace,
+                        Expanded(
+                          child: SocialButton(
+                            title: "Facebook",
+                            image: AppAssets.facebook,
+                            onTap: () {},
+                          ),
+                        ),
+                      ],
                     ),
                   ],
                 ),
-              ],
-            ),
-          ),
-        ),
-      ),
-      bottomNavigationBar: SafeArea(
-        maintainBottomViewPadding: true,
-        child: Padding(
-          padding: context.spaceBottom(30),
-          child: RichText(
-            textAlign: TextAlign.center,
-
-            text: TextSpan(
-              text: "Don't have an account?",
-              style: TextStyle(
-                color: context.textSecondaryColor,
-                fontSize: 18.sp,
               ),
-              children: [
-                TextSpan(
-                  text: ' Sign up',
-                  style: const TextStyle(
-                    color: AppColorPalette.primary,
-                    fontSize: 18,
-                    decoration: TextDecoration.underline,
-                  ),
-                  recognizer: TapGestureRecognizer()
-                    ..onTap = () {
-                      AppNavigation.pushNamed(
-                        context: context,
-                        routeName: RouteName.signUp,
-                      );
-                    },
-                ),
-              ],
             ),
           ),
-        ),
-      ),
+          bottomNavigationBar: SafeArea(
+            maintainBottomViewPadding: true,
+            child: Padding(
+              padding: context.spaceBottom(30),
+              child: RichText(
+                textAlign: TextAlign.center,
+
+                text: TextSpan(
+                  text: "Don't have an account?",
+                  style: TextStyle(
+                    color: context.textSecondaryColor,
+                    fontSize: 18.sp,
+                  ),
+                  children: [
+                    TextSpan(
+                      text: ' Sign up',
+                      style: const TextStyle(
+                        color: AppColorPalette.primary,
+                        fontSize: 18,
+                        decoration: TextDecoration.underline,
+                      ),
+                      recognizer: TapGestureRecognizer()
+                        ..onTap = () {
+                          AppNavigation.pushNamed(
+                            context: context,
+                            routeName: RouteName.signUp,
+                          );
+                        },
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ),
+        );
+      },
     );
   }
 }

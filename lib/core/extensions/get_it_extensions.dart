@@ -18,13 +18,20 @@ extension GetItExtensions on GetIt {
     emailAddress: emailAddress,
     password: password,
   );
-
-
+// Add Email And Name Service Manager
   Future<bool> addEmailAndName({
     required String emailAddress,
     required String name,
   }) => FirebaseServiceManager.addEmailAndName(
     emailAddress: emailAddress,
     name: name,
+  );
+  // Sign In User With Email And Password Service Manager
+  Future<Either<String, UserCredential>> signInUserWithEmailAndPassword({
+    required String emailAddress,
+    required String password,
+  }) => FirebaseServiceManager.signInUserWithEmailAndPassword(
+    emailAddress: emailAddress,
+    password: password,
   );
 }
