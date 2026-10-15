@@ -32,6 +32,7 @@ class _AppTextFormFieldState extends State<AppTextFormField> {
     return TextFormField(
       controller: widget.controller,
       obscureText: widget.obscure && !showPassword,
+      onTapOutside: (event) => FocusScope.of(context).unfocus(),
       decoration: InputDecoration(
         hintText: widget.hintText,
         prefixIcon: Padding(
@@ -40,13 +41,13 @@ class _AppTextFormFieldState extends State<AppTextFormField> {
         ),
         suffixIcon: widget.obscure
             ? IconButton(
-          onPressed: () {
-            setState(() => showPassword = !showPassword);
-          },
-          icon: Icon(
-            showPassword ? Icons.visibility : Icons.visibility_off,
-          ),
-        )
+                onPressed: () {
+                  setState(() => showPassword = !showPassword);
+                },
+                icon: Icon(
+                  showPassword ? Icons.visibility : Icons.visibility_off,
+                ),
+              )
             : null,
       ),
       keyboardType: widget.inputType,

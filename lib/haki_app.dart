@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:haki/core/get_it_service.dart';
+import 'package:haki/core/extensions/get_it_extensions.dart';
 import 'package:haki/core/navigations/routes_manager.dart';
+import 'package:haki/core/service/get_it_service.dart';
 import 'package:haki/core/theme/app_theme.dart';
-
-import 'core/navigations/get_it_navigation_extension.dart';
 
 class HakiApp extends StatelessWidget {
   const HakiApp({super.key});

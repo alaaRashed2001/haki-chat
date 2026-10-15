@@ -1,0 +1,1 @@
+enum WidgetStateEnum { loading, enable, failed, success, disable }
